@@ -26,6 +26,9 @@ export default function Navbar() {
         <Link href="/abos">
           Abos
         </Link>
+        <Link href="/upload">
+          Upload
+      </Link>
 
       </div>
 
