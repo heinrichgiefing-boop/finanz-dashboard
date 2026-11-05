@@ -2,10 +2,9 @@ import Link from "next/link";
 
 export default function Navbar() {
   return (
+    <nav className="bg-slate-900 text-white p-4">
 
-    <nav className="bg-slate-900 text-white">
-
-      <div className="max-w-7xl mx-auto flex gap-6 p-4">
+      <div className="flex gap-6">
 
         <Link href="/">
           Dashboard
@@ -26,13 +25,13 @@ export default function Navbar() {
         <Link href="/abos">
           Abos
         </Link>
+
         <Link href="/upload">
           Upload
-      </Link>
+        </Link>
 
       </div>
 
     </nav>
-
   );
 }
