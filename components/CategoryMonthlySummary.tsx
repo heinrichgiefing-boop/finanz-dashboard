@@ -42,82 +42,87 @@ export default function CategoryMonthlySummary({
             </tr>
 
           </thead>
+<tbody>
+  {data.map((row: any) => {
 
-          <tbody>
+    const isTotal =
+      row.category === "TOTAL";
 
-            {data.map((row: any) => {
+    return (
 
-              const isTotal =
-                row.category === "TOTAL";
+      <tr
+        key={row.category}
+        className={
+          isTotal
+            ? "bg-slate-200 font-bold"
+            : "border-b"
+        }
+      >
 
-              return (
+        <td className="p-2 text-left font-medium">
+          {row.category}
+        </td>
 
-                <tr
-                  key={row.category}
-                  className={
-                    isTotal
-                      ? "bg-slate-200 font-bold"
-                      : "border-b"
-                  }
-                >
+        <td className="p-2 text-right">
+          {formatCurrency(row.jan)}
+        </td>
 
-                  <td className="p-2 text-right">
-  {formatCurrency(row.jan)}
-</td>
+        <td className="p-2 text-right">
+          {formatCurrency(row.feb)}
+        </td>
 
-<td className="p-2 text-right">
-  {formatCurrency(row.feb)}
-</td>
+        <td className="p-2 text-right">
+          {formatCurrency(row.mar)}
+        </td>
 
-<td className="p-2 text-right">
-  {formatCurrency(row.mar)}
-</td>
+        <td className="p-2 text-right">
+          {formatCurrency(row.apr)}
+        </td>
 
-<td className="p-2 text-right">
-  {formatCurrency(row.apr)}
-</td>
+        <td className="p-2 text-right">
+          {formatCurrency(row.may)}
+        </td>
 
-<td className="p-2 text-right">
-  {formatCurrency(row.may)}
-</td>
+        <td className="p-2 text-right">
+          {formatCurrency(row.jun)}
+        </td>
 
-<td className="p-2 text-right">
-  {formatCurrency(row.jun)}
-</td>
+        <td className="p-2 text-right">
+          {formatCurrency(row.jul)}
+        </td>
 
-<td className="p-2 text-right">
-  {formatCurrency(row.jul)}
-</td>
+        <td className="p-2 text-right">
+          {formatCurrency(row.aug)}
+        </td>
 
-<td className="p-2 text-right">
-  {formatCurrency(row.aug)}
-</td>
+        <td className="p-2 text-right">
+          {formatCurrency(row.sep)}
+        </td>
 
-<td className="p-2 text-right">
-  {formatCurrency(row.sep)}
-</td>
+        <td className="p-2 text-right">
+          {formatCurrency(row.oct)}
+        </td>
 
-<td className="p-2 text-right">
-  {formatCurrency(row.oct)}
-</td>
+        <td className="p-2 text-right">
+          {formatCurrency(row.nov)}
+        </td>
 
-<td className="p-2 text-right">
-  {formatCurrency(row.nov)}
-</td>
+        <td className="p-2 text-right">
+          {formatCurrency(row.dec)}
+        </td>
 
-<td className="p-2 text-right">
-  {formatCurrency(row.dec)}
-</td>
+        <td className="p-2 text-right font-bold">
+          {formatCurrency(
+            row.year_total
+          )}
+        </td>
 
-<td className="p-2 text-right font-bold">
-  {formatCurrency(row.year_total)}
-</td>
+      </tr>
 
-                </tr>
-              );
-            })}
-
-          </tbody>
+    );
+  })}
+</tbody>
+          
 
         </table>
 
