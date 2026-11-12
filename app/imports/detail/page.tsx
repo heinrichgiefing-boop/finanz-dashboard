@@ -3,7 +3,7 @@
 import { Suspense, useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { supabase } from "../../../lib/supabase";
-import {  updateImportStatus } from "../../../lib/updateImportStatus";
+import { updateImportStatus } from "../../../lib/updateImportStatus";
 
 function ImportDetailContent() {
   const searchParams = useSearchParams();
@@ -84,98 +84,47 @@ function ImportDetailContent() {
           {data.ocr_text}
         </pre>
 
-         <div className="mt-6 flex gap-4">
+        <div className="mt-6 flex gap-4">
+          <button
+            onClick={async () => {
+              await updateImportStatus(
+                data.id,
+                "approved"
+              );
 
-            <button
-              onClick={async () => {
+              location.reload();
+            }}
+            className="
+              bg-green-600
+              text-white
+              px-4
+              py-2
+              rounded
+            "
+          >
+            ✅ Freigeben
+          </button>
 
-                await updateImportStatus(
-                  data.id,
-                  "approved"
-                );
+          <button
+            onClick={async () => {
+              await updateImportStatus(
+                data.id,
+                "rejected"
+              );
 
-                location.reload();
-
-              }}
-              className="
-                bg-green-600
-                text-white
-                px-4
-                py-2
-                rounded
-              "
-            >
-              ✅ Freigeben
-            </button>
-
-            <button
-              onClick={async () => {
-
-                await updateImportStatus(
-                  data.id,
-                  "rejected"
-                );
-
-                location.reload();
-
-              }}
-              className="
-                bg-red-600
-                text-white
-                px-4
-                py-2
-                rounded
-              "
-            >
-              ❌ Verwerfen
-            </button>
-
-          </div>
-        <button
-          onClick={async () => {
-
-            await updateImportStatus(
-              data.id,
-              "approved"
-            );
-
-            location.reload();
-
-          }}
-          className="
-            bg-green-600
-            text-white
-            px-4
-            py-2
-            rounded
-          "
-        >
-          ✅ Freigeben
-        </button>
-
-        <button
-          onClick={async () => {
-
-            await updateImportStatus(
-              data.id,
-              "rejected"
-            );
-
-            location.reload();
-
-          }}
-          className="
-            bg-red-600
-            text-white
-            px-4
-            py-2
-            rounded
-          "
-        >
-          ❌ Verwerfen
-        </button>
-
-      </div>        
+              location.reload();
+            }}
+            className="
+              bg-red-600
+              text-white
+              px-4
+              py-2
+              rounded
+            "
+          >
+            ❌ Verwerfen
+          </button>
+        </div>
       </div>
     </main>
   );
