@@ -12,6 +12,7 @@ import RecentTransactions from "../components/RecentTransactions";
 import SubscriptionOverview from "../components/SubscriptionOverview";
 import FoodAnalysis from "../components/FoodAnalysis";
 import CategoryMonthlySummary from "../components/CategoryMonthlySummary";
+import AuthGuard from "../components/AuthGuard";
 
 export default function Home() {
   const [kpi, setKpi] = useState<any>(null);
@@ -107,7 +108,9 @@ export default function Home() {
     );
   }
 
-  return (
+return (
+  <AuthGuard>
+
     <main className="min-h-screen bg-slate-100 p-8">
 
       <h1 className="text-4xl font-bold mb-8">
@@ -144,5 +147,7 @@ export default function Home() {
       />
 
     </main>
-  );
+
+  </AuthGuard>
+);
 }

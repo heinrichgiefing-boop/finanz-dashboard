@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import { supabase } from "../lib/supabase";
 
 export default function Navbar() {
   return (
@@ -29,9 +32,30 @@ export default function Navbar() {
         <Link href="/upload">
           Upload
         </Link>
-
+      <Link href="/imports">
+        OCR-Importe
+      </Link>
       </div>
+      
+      <button
+        onClick={async () => {
 
+          await supabase.auth.signOut();
+
+          window.location.href =
+            "/login";
+
+        }}
+        className="
+          ml-auto
+          bg-red-600
+          px-3
+          py-1
+          rounded
+        "
+      >
+        Logout
+      </button>
     </nav>
   );
 }

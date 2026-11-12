@@ -3,12 +3,23 @@
 import { useCallback, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { supabase } from "../lib/supabase";
+import { recognize } from "tesseract.js";
+import {  parseReceipt } from "../lib/receiptParser";
+import ReceiptImportPreview from "./ReceiptImportPreview";
 
 export default function ReceiptUpload() {
   const [uploading, setUploading] = useState(false);
   const [message, setMessage] = useState("");
   const [previewUrl, setPreviewUrl] =
     useState<string | null>(null);
+
+  const [uploadedPath, setUploadedPath] =
+    useState("");
+
+  const [ocrText, setOcrText] =
+    useState("");
+  const [parsedReceipt, setParsedReceipt] =
+    useState<any>(null);
 
   const onDrop = useCallback(
     async (acceptedFiles: File[]) => {
@@ -51,6 +62,8 @@ export default function ReceiptUpload() {
           throw error;
         }
 
+        setUploadedPath(fileName);
+
         setMessage(
           "✅ Beleg erfolgreich hochgeladen"
         );
@@ -64,6 +77,46 @@ export default function ReceiptUpload() {
     },
     []
   );
+
+const runOcr = async () => {
+  try {
+
+    if (!previewUrl) return;
+
+    setMessage(
+      "OCR läuft..."
+    );
+
+    const result =
+      await recognize(
+      previewUrl,
+     "deu"
+  );
+    setOcrText(
+      result.data.text
+    );
+  const parsed =
+    parseReceipt(
+      result.data.text
+    );
+
+  setParsedReceipt(
+    parsed
+  );
+    setMessage(
+      "✅ OCR abgeschlossen"
+    );
+
+  } catch (error) {
+
+    console.error(error);
+
+    setMessage(
+      "❌ OCR Fehler"
+    );
+
+  }
+};
 
   const {
     getRootProps,
@@ -149,6 +202,46 @@ export default function ReceiptUpload() {
         </div>
       )}
 
+      {uploadedPath && (
+        <button
+          onClick={runOcr}
+          className="
+            mt-4
+            bg-blue-600
+            text-white
+            px-4
+            py-2
+            rounded
+          "
+        >
+          OCR starten
+        </button>
+      )}
+
+      {ocrText && (
+        <div className="mt-6">
+
+          <h3 className="font-bold mb-2">
+            Erkannter Text
+          </h3>
+
+          <pre
+            className="
+              whitespace-pre-wrap
+              bg-slate-100
+              p-4
+              rounded
+            "
+          >
+            {ocrText}
+          </pre>
+
+        </div>
+      )}
+      
+<ReceiptImportPreview
+  parsedReceipt={parsedReceipt}
+/>
     </div>
   );
 }
