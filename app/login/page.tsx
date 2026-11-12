@@ -4,68 +4,106 @@ import { useState } from "react";
 import { supabase } from "../../lib/supabase";
 
 export default function LoginPage() {
-
   const [email, setEmail] =
     useState("");
 
   const [password, setPassword] =
     useState("");
 
+  const [loading, setLoading] =
+    useState(false);
+
   async function login() {
+    try {
+      setLoading(true);
 
-    const { error } =
-      await supabase.auth.signInWithPassword({
-        email,
-        password,
-      });
+      const { error } =
+        await supabase.auth.signInWithPassword({
+          email,
+          password,
+        });
 
-    if (error) {
-      alert(error.message);
+      if (error) {
+        alert(error.message);
+        return;
+      }
+
+      window.location.href = "/";
+
+    } catch (err) {
+
+      console.error(err);
+
+      alert(
+        "Fehler beim Login"
+      );
+
+    } finally {
+
+      setLoading(false);
+
     }
   }
 
   return (
+    <main className="min-h-screen flex items-center justify-center bg-slate-100">
 
-    <main className="max-w-md mx-auto p-8">
+      <div className="bg-white p-8 rounded-xl shadow w-full max-w-md">
 
-      <h1 className="text-3xl font-bold mb-6">
-        Login
-      </h1>
+        <h1 className="text-3xl font-bold mb-6">
+          Login
+        </h1>
 
-      <input
-        className="border p-2 w-full mb-4"
-        placeholder="E-Mail"
-        value={email}
-        onChange={(e) =>
-          setEmail(e.target.value)
-        }
-      />
+        <input
+          type="email"
+          placeholder="E-Mail"
+          value={email}
+          onChange={(e) =>
+            setEmail(e.target.value)
+          }
+          className="
+            w-full
+            border
+            p-2
+            mb-4
+            rounded
+          "
+        />
 
-      <input
-        type="password"
-        className="border p-2 w-full mb-4"
-        placeholder="Passwort"
-        value={password}
-        onChange={(e) =>
-          setPassword(e.target.value)
-        }
-      />
+        <input
+          type="password"
+          placeholder="Passwort"
+          value={password}
+          onChange={(e) =>
+            setPassword(e.target.value)
+          }
+          className="
+            w-full
+            border
+            p-2
+            mb-6
+            rounded
+          "
+        />
 
-      <button
-        onClick={login}
-        className="
-          bg-blue-600
-          text-white
-          px-4
-          py-2
-          rounded
-        "
-      >
-        Login
-      </button>
+        <button
+          onClick={login}
+          disabled={loading}
+          className="
+            w-full
+            bg-blue-600
+            text-white
+            py-2
+            rounded
+          "
+        >
+          {loading
+            ? "Anmeldung..."
+            : "Login"}
+        </button>
+
+      </div>
 
     </main>
-
   );
-
 }
